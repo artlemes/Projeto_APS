@@ -59,7 +59,7 @@ class Usuario:
     @classmethod
     def atualizar_usuario(self, usuario_email, novos_dados: dict):
         if "_id" in novos_dados:
-            del novos_dados["_id"]  # 🔥 Remove o _id antes de atualizar
+            del novos_dados["_id"]
         resultado = users_collection.update_one(
             {"email": usuario_email},
             {"$set": novos_dados}

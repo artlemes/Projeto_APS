@@ -44,7 +44,6 @@ class ProfileView:
         pw_window.geometry("350x200")
         pw_window.grab_set()  # impede interação com a janela principal enquanto essa estiver aberta
         
-        # Criando o frame dentro da janela de senha
         frame = Frame(pw_window, bg="#212121")
         frame.pack(expand=True, fill="both")
 
@@ -64,7 +63,7 @@ class ProfileView:
             width=20, height=2, command=lambda: self.save_new_password(user_atual, pw_window, new_pw_entry, confirm_pw_entry)).pack()
 
 
-    #Só isso que ta faltando!!!!
+    #working
     def save_new_password(self, user_atual, pw_window, new_pw, confirm_pw):
         new_pw = new_pw.get()
         confirm_pw = confirm_pw.get()
@@ -74,25 +73,14 @@ class ProfileView:
         elif not new_pw:
             messagebox.showerror("Erro", "A senha não pode ser vazia.")
         else:
-            # Cria nova instância de usuário com a nova senha e dados antigos
-            usuario = self.__user_controller.usuario(
-                nome=user_atual['nome'],
-                cpf=user_atual['cpf'],
-                celular=user_atual['celular'],
-                email=user_atual['email'],
-                senha=new_pw,  # nova senha será criptografada no __init__
-                type=user_atual['type'],
-                usuario_id=user_atual.get('_id')
-            )
-
             sucesso = self.__user_controller.atualizar_usuario(
-                usuario.email, 
-                usuario.nome,
-                usuario.cpf,
-                usuario.celular,
-                usuario.email,
-                usuario.type,
-                usuario.senha  # senha já está criptografada corretamente
+                user_atual['email'],
+                user_atual['nome'],
+                user_atual['cpf'],
+                user_atual['celular'],
+                user_atual['email'],
+                user_atual['type'],
+                new_pw
             )
 
             if sucesso:

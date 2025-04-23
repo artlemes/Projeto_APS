@@ -37,7 +37,7 @@ class UserController:
                 self.__main_controller.show_home(email)
 
             case 2:
-                messagebox.showwarning("Login", "❌ Email ou senha incorretos.")
+                messagebox.showwarning("Login", "Email ou senha incorretos.")
             case 3:
                 messagebox.showerror("Login", "Erro interno durante o login.")
             case _:
