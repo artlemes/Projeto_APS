@@ -22,9 +22,9 @@ class MainController:
         self.clear_window()
         self.__user_controller.show_login_screen()
     
-    def main_profile(self):
+    def main_profile(self, email_atual):
         self.clear_window()
-        self.__user_controller.show_profile_screen()
+        self.__user_controller.show_profile_screen(email_atual)
 
     def main_logout(self):
         self.clear_window()
@@ -34,6 +34,6 @@ class MainController:
         self.clear_window()
         self.__user_controller.show_register_screen()
     
-    def show_home(self):
+    def show_home(self, email_atual):
         self.clear_window()
-        self.__main_view.home_screen()
+        self.__main_view.home_screen(email_atual)

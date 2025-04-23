@@ -94,5 +94,5 @@ class UsersView:
         senha = self.senha_entry.get()
         type = self.type_var.get()
         print(self.__user_controller.cadastrar_usuario(name, cpf, cellNumber, email, type, senha))
-        self.__user_controller.show_main()
+        self.__user_controller.main_screen()
 

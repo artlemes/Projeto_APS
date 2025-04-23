@@ -8,7 +8,7 @@ users_collection = db["users"]
 
 class Usuario:
     def __init__(self, nome: str, cpf: str, celular: str, email: str, senha: str, type: str, usuario_id=None):
-        self._id = ObjectId(usuario_id) if usuario_id else None
+        self._id = ObjectId(usuario_id)
         self.nome = nome
         self.cpf = cpf
         self.celular = celular
@@ -57,16 +57,19 @@ class Usuario:
         return usuarios
 
     @classmethod
-    def atualizar_usuario(self, usuario_id, novos_dados: dict):
+    def atualizar_usuario(self, usuario_email, novos_dados: dict):
+        if "_id" in novos_dados:
+            del novos_dados["_id"]  # 🔥 Remove o _id antes de atualizar
         resultado = users_collection.update_one(
-            {"_id": ObjectId(usuario_id)},
+            {"email": usuario_email},
             {"$set": novos_dados}
         )
-        return resultado.modified_count > 0  # True se algo foi alterado
+        return resultado.modified_count > 0
+
 
     @classmethod
-    def deletar_usuario(self, usuario_id):
-        resultado = users_collection.delete_one({"_id": ObjectId(usuario_id)})
+    def deletar_usuario(self, email):
+        resultado = users_collection.delete_one({"email": email})
         return resultado.deleted_count > 0  # True se o usuário foi deletado
 
     def autenticar_usuário(email, senha):

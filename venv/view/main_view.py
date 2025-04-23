@@ -14,12 +14,12 @@ class MainView:
         Button(frame, text="Login", font=("Arial", 12), bg="#212121",fg="white", activebackground="#616161", width=50, height=2, command=self.__controller.main_login).pack(pady=10)
         Button(frame, text="Cadastro", font=("Arial", 12), bg="#212121",fg="white", activebackground="#616161", width=50,height=2, command=self.__controller.main_cadastro).pack(pady=10)
 
-   def home_screen(self):
+   def home_screen(self, email_atual):
          
       top_frame = Frame(self.root, bg="#BDBDBD", height=50)
       top_frame.pack(fill="x", side="top")
 
-      profile_btn = Button(top_frame, text="Profile", command=self.__controller.main_profile, width=10, bg="#9E9E9E", fg="white", font=("Arial", 10, "bold"))
+      profile_btn = Button(top_frame, text="Profile", command=lambda: self.__controller.main_profile(email_atual), width=10, bg="#9E9E9E", fg="white", font=("Arial", 10, "bold"))
       profile_btn.pack(side="left", padx=10, pady=10)
 
       logout_btn = Button(top_frame, text="Logout",command=self.__controller.main_logout, width=10, bg="#D32F2F", fg="white", font=("Arial", 10, "bold"))

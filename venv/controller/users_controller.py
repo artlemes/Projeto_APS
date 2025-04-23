@@ -9,6 +9,7 @@ class UserController:
     def __init__(self, root, controller):
         self.root = root
         self.__main_controller = controller
+        self.usuario = Usuario
         self.__users_view = UsersView(self.root, self)
         self.__profile_view = ProfileView(self.root, self)
         self.db = get_database()
@@ -33,8 +34,7 @@ class UserController:
         match res:
             case 1:
                 self.usuario_logado = email
-                messagebox.showinfo("Login", "✅ Login bem-sucedido!")
-                self.__main_controller.show_home()
+                self.__main_controller.show_home(email)
 
             case 2:
                 messagebox.showwarning("Login", "❌ Email ou senha incorretos.")
@@ -53,11 +53,11 @@ class UserController:
     def show_logout_screen(self):
         self.__users_view.logout_confirmation_screen()
 
-    def main_home(self):
-        self.__main_controller.show_home()
+    def main_home(self, email_atual):
+        self.__main_controller.show_home(email_atual)
     
-    def show_profile_screen(self):
-        self.__profile_view.profile_screen()
+    def show_profile_screen(self, email_atual):
+        self.__profile_view.profile_screen(email_atual)
 
     def show_login_screen(self):
         self.__users_view.login_screen()
@@ -70,36 +70,38 @@ class UserController:
         return Usuario.listar_usuarios()
     
     @staticmethod
-    def buscar_usuario_por_id(usuario_id: str) -> dict:
+    def buscar_usuario_por_email(usuario_email: str) -> dict:
 
-        usuario = Usuario.buscar_usuario_por_id(usuario_id)
+        usuario = Usuario.buscar_usuario_por_email(usuario_email)
         if not usuario:
             return {"erro": "Usuário não encontrado."}
         return usuario
     
     @staticmethod
-    def atualizar_usuario(usuario_id: str, nome: str, cpf: str, celular: str, type, email: str, senha: str) -> dict:
+    def atualizar_usuario(email_antigo, nome: str, cpf, celular, email: str, tipo, senha: str) -> dict:
         
-        usuario_data = Usuario.buscar_usuario_por_id(usuario_id)
-        if not usuario_data:
+        usuario_antigo = Usuario.buscar_usuario_por_email(email_antigo)
+        if not usuario_antigo:
             return {"erro": "Usuário não encontrado."}
         
         # Cria o objeto de usuário com os dados atualizados
-        usuario = Usuario.to_dict(nome, cpf, celular, email, type, senha)
+        usuario = Usuario(nome, cpf, celular, email, senha, tipo)
+
+        usuario_dicionario = Usuario.to_dict(usuario)
         
         # Atualiza o usuário no banco
-        Usuario.atualizar_usuario(usuario_id, usuario)
+        Usuario.atualizar_usuario(email_antigo, usuario_dicionario)
         
         return {"sucesso": "Usuário atualizado com sucesso!"}
     
     @staticmethod
-    def excluir_usuario(usuario_id: str) -> dict:
+    def excluir_usuario(email: str) -> dict:
 
-        usuario_data = Usuario.buscar_usuario_por_id(usuario_id)
+        usuario_data = Usuario.buscar_usuario_por_email(email)
         if not usuario_data:
             return {"erro": "Usuário não encontrado."}
 
-        Usuario.deletar_usuario(usuario_id)
+        Usuario.deletar_usuario(email)
 
         return {"sucesso": "Usuário excluído com sucesso!"}
 
