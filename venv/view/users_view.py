@@ -105,6 +105,7 @@ class UsersView:
         if not erros:
 
             print(self.__user_controller.cadastrar_usuario(name, cpf, cellNumber, email, type, senha))
+            messagebox.showinfo("Sucesso!", "Usuário cadastrado com sucesso!!!")
             self.__user_controller.main_screen()
 
         else: 

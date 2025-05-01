@@ -103,6 +103,10 @@ class ProfileView:
         name = self.name_entry.get()
         email = self.email_entry.get()
 
+        if '@' not in email:
+            messagebox.showerror("Erro na edição", 'Email deve conter pelo menos um "@".')
+            return
+
         print("email do usuario antes da atualização: ", user_atual['email'])
 
         if name and not email: 
