@@ -95,6 +95,7 @@ class UsersView:
         senha = self.senha_entry.get()
         type = self.type_var.get()
 
+        #testando se todos os campos foram preenchidos
         if not name or not cellNumber or not cpf or not email or not senha or not type:
             messagebox.showerror("Erro no registro", 'É necessário preencher todos os campos!')
             return
@@ -107,29 +108,24 @@ class UsersView:
             self.__user_controller.main_screen()
 
         else: 
-            mensagem = '\n'.join(f"{campo}: {mensagem}" for campo, mensagem in erros.items())
-            messagebox.showerror("Erros de Validação", mensagem)
+            mensagem = '\n'.join(f"{mensagem}" for campo, mensagem in erros.items())
+            messagebox.showerror("Registro inválido", mensagem)
 
     def validacoes_registro(self, name, cellNumber, cpf, email, senha):
         erros = {}
 
-        # Nome: pelo menos uma letra (ignorando espaços)
         if not name or not re.search(r'[A-Za-z]', name):
             erros['name'] = 'Nome deve conter pelo menos uma letra.'
 
-        # Celular: exatamente 11 dígitos, sem pontos ou outros caracteres
         if not re.fullmatch(r'\d{11}', cellNumber):
             erros['celular'] = 'Número de celular deve conter exatamente 11 dígitos (somente números).'
 
-        # CPF: exatamente 11 dígitos, sem pontos ou traços
         if not re.fullmatch(r'\d{11}', cpf):
             erros['cpf'] = 'CPF deve conter exatamente 11 dígitos (somente números).'
 
-        # Email: deve conter pelo menos um "@"
         if '@' not in email:
             erros['email'] = 'Email deve conter pelo menos um "@".'
 
-        # Senha: verificar se não está vazia
         if not senha:
             erros['senha'] = 'Senha é obrigatória.'
 
