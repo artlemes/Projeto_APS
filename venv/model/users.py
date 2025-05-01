@@ -57,6 +57,7 @@ class Usuario:
         return usuarios
 
     @classmethod
+    #Faltou recriptografar a senha, o que causa um erro no login.
     def atualizar_usuario(self, usuario_email, novos_dados: dict):
         if "_id" in novos_dados:
             del novos_dados["_id"]
@@ -77,6 +78,7 @@ class Usuario:
             db = get_database()
             users = db['users']
             user = users.find_one({"email":email})
+            print(f'o usuario {user['email']}, esta tentando fazer login')
             if user and bcrypt.checkpw(senha.encode('utf-8'), user["senha"].encode('utf-8')):
                 return 1
             return 2

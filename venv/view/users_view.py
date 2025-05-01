@@ -1,4 +1,5 @@
-from tkinter import Frame, Button, Label, Entry, StringVar, ttk
+from tkinter import Frame, Button, Label, Entry, StringVar, ttk, messagebox
+import re
 
 class UsersView:
     def __init__(self, root, user_controller):
@@ -93,6 +94,44 @@ class UsersView:
         email = self.email_entry.get()
         senha = self.senha_entry.get()
         type = self.type_var.get()
-        print(self.__user_controller.cadastrar_usuario(name, cpf, cellNumber, email, type, senha))
-        self.__user_controller.main_screen()
+
+        if not name or not cellNumber or not cpf or not email or not senha or not type:
+            messagebox.showerror("Erro no registro", 'É necessário preencher todos os campos!')
+            return
+
+        erros = self.validacoes_registro(name, cellNumber, cpf, email, senha)
+
+        if not erros:
+
+            print(self.__user_controller.cadastrar_usuario(name, cpf, cellNumber, email, type, senha))
+            self.__user_controller.main_screen()
+
+        else: 
+            mensagem = '\n'.join(f"{campo}: {mensagem}" for campo, mensagem in erros.items())
+            messagebox.showerror("Erros de Validação", mensagem)
+
+    def validacoes_registro(self, name, cellNumber, cpf, email, senha):
+        erros = {}
+
+        # Nome: pelo menos uma letra (ignorando espaços)
+        if not name or not re.search(r'[A-Za-z]', name):
+            erros['name'] = 'Nome deve conter pelo menos uma letra.'
+
+        # Celular: exatamente 11 dígitos, sem pontos ou outros caracteres
+        if not re.fullmatch(r'\d{11}', cellNumber):
+            erros['celular'] = 'Número de celular deve conter exatamente 11 dígitos (somente números).'
+
+        # CPF: exatamente 11 dígitos, sem pontos ou traços
+        if not re.fullmatch(r'\d{11}', cpf):
+            erros['cpf'] = 'CPF deve conter exatamente 11 dígitos (somente números).'
+
+        # Email: deve conter pelo menos um "@"
+        if '@' not in email:
+            erros['email'] = 'Email deve conter pelo menos um "@".'
+
+        # Senha: verificar se não está vazia
+        if not senha:
+            erros['senha'] = 'Senha é obrigatória.'
+
+        return erros
 
