@@ -14,7 +14,7 @@ class Usuario:
         self.celular = celular
         self.email = email
         self.type = type
-        self.senha = self.criptografar_senha(senha) if senha else None
+        self.senha = senha
 
     def criptografar_senha(self, senha: str) -> str:
         senha_bytes = senha.encode('utf-8')
@@ -37,9 +37,14 @@ class Usuario:
 
     @classmethod
     def criar_usuario(self, nome, cpf, celular, email, type, senha):
+
+        senha = self.criptografar_senha(self, senha)
+
         usuario = self(nome, cpf, celular, email, senha, type)
-        resultado = users_collection.insert_one(usuario.to_dict())
-        return str(resultado.inserted_id)
+
+        users_collection.insert_one(usuario.to_dict())
+
+        return 
 
     @classmethod
     def buscar_usuario_por_email(self, usuario_email):
