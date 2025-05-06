@@ -7,13 +7,12 @@ db = get_database()
 users_collection = db["users"]
 
 class Usuario:
-    def __init__(self, nome: str, cpf: str, celular: str, email: str, senha: str, type: str, usuario_id=None):
+    def __init__(self, nome: str, cpf: str, celular: str, email: str, senha: str, usuario_id=None):
         self._id = ObjectId(usuario_id)
         self.nome = nome
         self.cpf = cpf
         self.celular = celular
         self.email = email
-        self.type = type
         self.senha = senha
 
     def criptografar_senha(self, senha: str) -> str:
@@ -31,16 +30,15 @@ class Usuario:
             "cpf": self.cpf,
             "celular": self.celular,
             "email": self.email,
-            "type": self.type,
             "senha": self.senha
         }
 
     @classmethod
-    def criar_usuario(self, nome, cpf, celular, email, type, senha):
+    def criar_usuario(self, nome, cpf, celular, email, senha):
 
         senha = self.criptografar_senha(self, senha)
 
-        usuario = self(nome, cpf, celular, email, senha, type)
+        usuario = self(nome, cpf, celular, email, senha)
 
         users_collection.insert_one(usuario.to_dict())
 
