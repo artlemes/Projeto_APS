@@ -198,8 +198,6 @@ class WorkoutPlanView:
         sessions = self.sessions_entry.get().strip()
         days = self.days_selected if hasattr(self, 'days_selected') else {}
 
-        valid = True
-
         # Limpa mensagens anteriores
         self.name_error.config(text="")
         self.type_error.config(text="")
@@ -207,25 +205,7 @@ class WorkoutPlanView:
         self.days_status_label.config(text="")
 
         # Validações
-        if not name:
-            self.name_error.config(text="Name is required.")
-            valid = False
-
-        if not goal:
-            self.type_error.config(text="Goal is required.")
-            valid = False
-
-        if not sessions.isdigit(): 
-            self.sessions_error.config(text="Enter a valid number of sessions.")
-            valid = False
-
-        print(days.values())
-
-        if not any(days.values()):
-            self.days_status_label.config(text="Select at least one day.", fg="red")
-            valid = False
-        else:
-            self.days_status_label.config(text="Days selected!", fg="green")
+        valid = self.validation(name, goal, sessions, days)
 
         if not valid:
             return
@@ -249,3 +229,36 @@ class WorkoutPlanView:
                 messagebox.showerror(type, text)
             case "warning":
                 messagebox.showwarning(type, text)
+
+
+    #coloquei a validação dos campos aqui
+    def validation(self, name, goal, sessions, days): 
+
+        print("numero de sessoes assim q cliquei create: ", sessions)
+        valid = True
+
+        if not name:
+            self.name_error.config(text="Name is required.")
+            valid = False
+
+        if not goal:
+            self.type_error.config(text="Goal is required.")
+            valid = False
+
+        if not sessions.isdigit(): 
+            self.sessions_error.config(text="Enter a valid number of sessions.")
+            valid = False
+
+        if (sessions == "0"):
+            self.sessions_error.config(text="The number of sessions can't be zero")
+            valid = False
+
+        print(days.values())
+
+        if not any(days.values()):
+            self.days_status_label.config(text="Select at least one day.", fg="red")
+            valid = False
+        else:
+            self.days_status_label.config(text="Days selected!", fg="green")
+
+        return valid
