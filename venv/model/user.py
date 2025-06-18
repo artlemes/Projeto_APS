@@ -7,7 +7,6 @@ class User:
         self.email = email
         self.password = password
 
-    ### Arrumar
     @classmethod
     def update_user(self, logged_user, new_data):
         try:

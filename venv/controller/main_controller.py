@@ -66,6 +66,9 @@ class MainController:
         else:
             workout_plan = {"name": "No data", "sessions": "No data"}
             self.__practitioner_controller.home_screen(workout_plan)
+
+    def main_update_wkPlan_email(self, old_email, email):
+        self.__workout_plan_controller.update_email(old_email, email)
     
     def main_create_workouts(self, days):
         res = self.__workout_controller.create_workouts(days)

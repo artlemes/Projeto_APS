@@ -50,6 +50,18 @@ class WorkoutPlanController:
         data = self.get_workout_plan_by_email()
         self.__workout_plan_view.update_workout_plan_screen(data)
 
+    @classmethod
+    def update_email(self, old_email, new_email):
+        try:
+            collection = workout_plans_collection()
+            collection.update_one(
+                {"email": old_email},
+                {"$set": {"email": new_email}}
+            )
+            return True
+        except Exception as e:
+            print(f"Error updating workout plan email: {e}")
+            return False
 
     def home_screen(self):
         self.__main_controller.main_practitioner_home()

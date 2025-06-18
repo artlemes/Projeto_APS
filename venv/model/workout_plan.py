@@ -24,7 +24,8 @@ class WorkoutPlan:
             return True
         except:
             return "Erro ao Cadastrar."
-
+    
+    @classmethod
     def delete_workout_plan(email):
         try:
             collection = workout_plans_collection()

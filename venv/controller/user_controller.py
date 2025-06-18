@@ -40,7 +40,32 @@ class UserController:
             type = "Error"
             text = f"{res}"
             UserView.throw_message(type, res)
+    
+    def update_user(self, name, email, password):
+        new_password = password
+        if len(password) < 50:
+            new_password = User.password_crypt(password)
+        novos_dados = {
+            "name": name,
+            "email": email,
+            "password": new_password
+        }
 
+        current_user = self.get_user_by_email()
+        old_email = current_user["email"]
+
+        sucesso = User.update_user(self.logged_user, novos_dados)
+        if sucesso:
+            self.__main_controller.main_update_wkPlan_email(old_email, email)
+            self.logged_user = email
+            type = "Info"
+            text = "Perfil atualizado com sucesso."
+            UserView.throw_message(type, text)
+            return True
+        else:
+            type = "Error"
+            text = "Não foi possível atualizar o perfil."
+            UserView.throw_message(type, text)
 
     def home_screen(self, type):
         if type == "Praticante":
@@ -73,29 +98,6 @@ class UserController:
             return False
         else: 
             return True
-    
-    def update_user(self, name, email, password):
-        new_password = password
-        if len(password) < 50:
-            new_password = User.password_crypt(password)
-        novos_dados = {
-            "name": name,
-            "email": email,
-            "password": new_password
-        }
-        sucesso = User.update_user(self.logged_user, novos_dados)
-        if sucesso:
-            self.logged_user = email
-            type = "Info"
-            text = "Perfil atualizado com sucesso."
-            UserView.throw_message(type, text)
-            return True
-        else:
-            type = "Error"
-            text = "Não foi possível atualizar o perfil."
-            UserView.throw_message(type, text)
-    
-    
     
     def delete_user(self, email):
         try:
