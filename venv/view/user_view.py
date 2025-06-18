@@ -127,7 +127,11 @@ class UserView:
         if is_valid:
             self.perform_registration(name, email, password, type)
         else:
+<<<<<<< HEAD
             messagebox.showerror("Error", "Há campos incorretos!")
+=======
+            messagebox.showerror("Validation Error", "Please correct the errors in the form")
+>>>>>>> main
 
     def is_valid_email(self, email):
         """Validate email format using regex"""
@@ -136,12 +140,22 @@ class UserView:
 
     def perform_registration(self, name, email, password, type):
         try:
+<<<<<<< HEAD
             self.__user_controller.register_user(name, email, password, type)
         except Exception as e:
             messagebox.showerror("Error", f"Registration failed: {str(e)}")
 
     @staticmethod
     def throw_message(type, text):
+=======
+            print("Passei no perform Full")
+            self.__user_controller.register_user(name, email, password, type)
+            self.__user_controller.first_screen()
+        except Exception as e:
+            messagebox.showerror("Error", f"Registration failed: {str(e)}")
+
+    def throw_error(type, text):
+>>>>>>> main
         match type:
             case "Info":
                 messagebox.showinfo(type, text)

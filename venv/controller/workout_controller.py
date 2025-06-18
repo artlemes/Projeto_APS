@@ -30,13 +30,22 @@ class WorkoutController:
             Workout.update_workout(email, day, updated_data)
             type = "Info"
             text = "Treino atualizado com exito!"
+<<<<<<< HEAD
             WorkoutView.throw_message(type, text)
+=======
+            WorkoutView.throw_error(type, text)
+            workouts = self.__main_controller.get_workouts()
+>>>>>>> main
             self.workouts_screen()
         except Exception as e:
             print("Erro:", e)
             type = "Error"
             text = "Erro ao atualizar o treino!"
+<<<<<<< HEAD
             WorkoutView.throw_message(type, text)
+=======
+            WorkoutView.throw_error(type, text)
+>>>>>>> main
 
     def workouts_screen(self):
         workouts = self.__main_controller.get_workouts()

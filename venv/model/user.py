@@ -44,7 +44,11 @@ class User:
         except Exception as e:
             return "Erro durante a autenticação."
     
+<<<<<<< HEAD
     @classmethod
+=======
+    @staticmethod
+>>>>>>> main
     def password_crypt(password):
         password_bytes = password.encode('utf-8')
         password_hash = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
