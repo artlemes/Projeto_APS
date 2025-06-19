@@ -103,8 +103,10 @@ class MainController:
         return self.__user_controller.logged_user
     
     def get_workout_plan(self):
-        return self.__workout_plan_controller.get_workout_plan_by_email()
-    
+        res = self.__workout_plan_controller.get_workout_plan_by_email()
+        return res
+
+
     def get_workouts(self):
         workout_plan = self.get_workout_plan()
         workouts = workout_plan["workouts"]

@@ -10,10 +10,6 @@ class WorkoutPlan:
 
     def create_workout_plan(workout_plan_data):
         try:
-<<<<<<< HEAD
-            
-=======
->>>>>>> main
             collection = workout_plans_collection()
             workout_plan = {
                 "email": workout_plan_data.email,
@@ -28,7 +24,7 @@ class WorkoutPlan:
         except:
             return "Erro ao Cadastrar."
     
-    @classmethod
+    @staticmethod
     def delete_workout_plan(email):
         try:
             collection = workout_plans_collection()

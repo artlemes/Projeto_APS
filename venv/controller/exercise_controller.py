@@ -45,21 +45,13 @@ class ExerciseController:
             # Mensagem de sucesso
             type = "Info"
             text = "Exercício removido com sucesso."
-<<<<<<< HEAD
             ExerciseView.throw_message(type, text)
-=======
-            ExerciseView.throw_error(type, text)
->>>>>>> main
 
         except Exception as e:
             print("Erro ao remover exercício:", e)
             type = "Erro"
             text = "Não foi possível remover o exercício."
-<<<<<<< HEAD
             ExerciseView.throw_message(type, text)
-=======
-            ExerciseView.throw_error(type, text)
->>>>>>> main
 
     def handle_creat(self, exercise, workout):
         try:
@@ -70,22 +62,14 @@ class ExerciseController:
             if res == True:
                 type = "Info"
                 text = "Exercicio atualizado com exito!"
-<<<<<<< HEAD
                 ExerciseView.throw_message(type, text)
-=======
-                ExerciseView.throw_error(type, text)
->>>>>>> main
                 self.workout_screen(workout)
             else: raise Exception
         except Exception as e:
             print("Erro:", e)
             type = "Error"
             text = "Erro ao atualizar o treino!"
-<<<<<<< HEAD
             ExerciseView.throw_message(type, text)
-=======
-            ExerciseView.throw_error(type, text)
->>>>>>> main
 
     def update_exercise(self, exercise, workout):
         try:
@@ -110,22 +94,14 @@ class ExerciseController:
             res = Exercise.update_exercise(email, workout["day"], exercises)
 
             if res is True:
-<<<<<<< HEAD
                 ExerciseView.throw_message("Info", "Exercício atualizado com êxito!")
-=======
-                ExerciseView.throw_error("Info", "Exercício atualizado com êxito!")
->>>>>>> main
                 self.workout_screen(workout)
             else:
                 raise Exception("Falha ao atualizar no banco.")
 
         except Exception as e:
             print("Erro:", e)
-<<<<<<< HEAD
             ExerciseView.throw_message("Error", "Erro ao atualizar o exercício!")
-=======
-            ExerciseView.throw_error("Error", "Erro ao atualizar o exercício!")
->>>>>>> main
 
     def create_exercise_screen(self, workout):
         self.__exercise_view.create_exercise_view(workout)

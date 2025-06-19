@@ -77,13 +77,13 @@ class WorkoutPlanController:
             WorkoutPlanView.throw_message(text_type, text)
 
     def get_workout_plan_by_email(self):
-        try:
-            email = self.__main_controller.get_logged_user()
-            collection = workout_plans_collection()
-            workout_plan = collection.find_one({"email": email})
-            return workout_plan
-        except Exception as e:
+        email = self.__main_controller.get_logged_user()
+        collection = workout_plans_collection()
+        workout_plan = collection.find_one({"email": email})
+        if workout_plan == None:
             return False
+        return workout_plan
+        
 
     def get_rest_and_reps_range(self, goal, choose):
         match goal:

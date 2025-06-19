@@ -101,44 +101,49 @@ class WorkoutPlanView:
             width=50, height=2).pack(pady=(0, 10))
         
     def on_update_click(self, data):
-        name = self.name_update_entry.get().strip()
-        goal = self.goal_update_var.get().strip()
-        sessions = self.sessions_update_entry.get().strip()
+        try:
+            # Obter valores dos campos
+            name = self.name_update_entry.get().strip()
+            goal = self.goal_update_var.get().strip()
+            sessions = self.sessions_update_entry.get().strip()
 
-        # Atualiza somente os campos preenchidos
-        if not name:
-            name = data["name"]
-        if not goal:
-             goal = data["goal"]
-        if not sessions:
-            sessions = data["sessions"]
-        elif sessions.isdigit():
-            pass
-        else:
-            self.sessions_update_error.config(text="Enter a valid number")
-            return
+            # Validação de sessions (deve ser feito ANTES de converter para int)
+            if sessions:  # Se o campo não estiver vazio
+                if not sessions.isdigit():
+                    self.sessions_update_error.config(text="Enter a valid number")
+                    return
+                if int(sessions) == 0:
+                    self.sessions_update_error.config(text="The number of sessions can't be zero")
+                    return
+
+            # Atualiza somente os campos preenchidos
+            name = name if name else data["name"]
+            goal = goal if goal else data["goal"]
+            sessions = int(sessions) if sessions else data["sessions"]
+
+            # Preparar dados atualizados
+            updated_data = {
+                "name": name,
+                "goal": goal,
+                "sessions": sessions,
+                "workouts": data.get("workouts", [])  # Usar get() para evitar KeyError
+            }
+
+            # Verificar se houve mudanças
+            if all([
+                updated_data["name"] == data["name"],
+                updated_data["goal"] == data["goal"],
+                updated_data["sessions"] == data["sessions"]
+            ]):
+                messagebox.showinfo("Info", "No changes to update.")
+                return
+
+            self.__workout_plan_controller.update_workout_plan(updated_data)
+
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {str(e)}")
+            print(f"Debug - Error: {e}\nData: {data}")
         
-        updated_data = {"name": name,
-                        "goal": goal,
-                        "sessions": sessions,
-                        "days": data["workouts"]
-                        }
-        def check_updated_data():
-            if updated_data["name"] == data["name"] and \
-            updated_data["goal"] == data["goal"] and \
-            updated_data["sessions"] == data["sessions"]:
-                return True
-            return False
-            
-        if check_updated_data():
-            messagebox.showinfo("Info", "No changes to update.")
-            return
-
-        print(updated_data)
-        self.__workout_plan_controller.update_workout_plan(updated_data)
-        
-
-
     def on_days_click(self):
         self.days_selected = {i: False for i in range(7)}  # 0 = Domingo, ..., 6 = Sábado
         self.open_days_selection_window()
@@ -184,8 +189,6 @@ class WorkoutPlanView:
             
             days_window.destroy()
         Button(days_window, text="Save", command=save_days, font=("Arial", 12, "bold"), bg="#4CAF50", width= 16, fg="white").pack(pady=(20, 10))
-    
-
 
     def delete_workout_plan(self, email):
         result = messagebox.askyesno("Delete Workout Plan", "Tem certeza que deseja deletar seu plano de treino?")
@@ -230,7 +233,6 @@ class WorkoutPlanView:
                 messagebox.showerror(type, text)
             case "warning":
                 messagebox.showwarning(type, text)
-
 
     #coloquei a validação dos campos aqui
     def validation(self, name, goal, sessions, days): 

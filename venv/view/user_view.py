@@ -127,11 +127,7 @@ class UserView:
         if is_valid:
             self.perform_registration(name, email, password, type)
         else:
-<<<<<<< HEAD
             messagebox.showerror("Error", "Há campos incorretos!")
-=======
-            messagebox.showerror("Validation Error", "Please correct the errors in the form")
->>>>>>> main
 
     def is_valid_email(self, email):
         """Validate email format using regex"""
@@ -140,22 +136,12 @@ class UserView:
 
     def perform_registration(self, name, email, password, type):
         try:
-<<<<<<< HEAD
             self.__user_controller.register_user(name, email, password, type)
         except Exception as e:
             messagebox.showerror("Error", f"Registration failed: {str(e)}")
 
     @staticmethod
     def throw_message(type, text):
-=======
-            print("Passei no perform Full")
-            self.__user_controller.register_user(name, email, password, type)
-            self.__user_controller.first_screen()
-        except Exception as e:
-            messagebox.showerror("Error", f"Registration failed: {str(e)}")
-
-    def throw_error(type, text):
->>>>>>> main
         match type:
             case "Info":
                 messagebox.showinfo(type, text)
@@ -190,7 +176,7 @@ class UserView:
         Button(frame, text="Save", font=("Arial", 12), bg="#4CAF50",
                width=50, height=2, command=lambda:self.save_profile(user_atual)).pack(pady=10)
 
-        Button(frame, text="Cancel", font=("Arial", 12), bg="#dcdcdc",
+        Button(frame, text="Back", font=("Arial", 12), bg="#dcdcdc",
                width=50, height=2, command=lambda: self.__user_controller.home_screen(user_atual["type"])).pack()
 
     def change_password(self, current_user):
@@ -215,7 +201,7 @@ class UserView:
         # Criando o botão na parte inferior, com uma largura menor
         button_frame = Frame(pw_window, bg="#212121")
         button_frame.pack(side="bottom", fill="x", padx=10, pady=10)  # Coloca o botão no fundo e ajusta margens
-        Button(button_frame, text="Save new password", font=("Arial", 12), bg="#dcdcdc",
+        Button(button_frame, text="Save new password", font=("Arial", 12), bg="#4CAF50",
             width=20, height=2, command=lambda: self.save_new_password(current_user, pw_window, new_pw_entry, confirm_pw_entry)).pack()
 
     def save_new_password(self, current_user, pw_window, new_pw, confirm_pw):
@@ -245,6 +231,11 @@ class UserView:
         name = self.name_entry.get()
         email = self.email_entry.get()
 
+        if not email and not name:
+            messagebox.showerror("Info", 'Não há alterações.')
+            return
+
+        
         if email and not self.is_valid_email(email):
             messagebox.showerror("Erro na edição", 'Formato de e-mail inválido.')
             return

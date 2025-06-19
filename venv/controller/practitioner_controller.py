@@ -40,4 +40,12 @@ class PractitionerController:
         self.__main_controller.main_create_workout_plan()
     
     def update_workout_plan(self):
+        workout_plan = self.__main_controller.get_workout_plan()
+
+        if not workout_plan:
+            self.__practitioner_view.throw_message(
+                "Error", 
+                "Nenhum plano de treino encontrado."
+            )
+            return
         self.__main_controller.main_upadate_workout_plan()
