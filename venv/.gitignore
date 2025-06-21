@@ -1,3 +1,10 @@
 .env
 
 C:\Users\suhne\OneDrive\Área de Trabalho\Studies\Projeto APS\venv
+
+# Ignorar arquivos pyc
+*.pyc
+__pycache__/
+
+# Ignorar ambientes virtuais
+venv/

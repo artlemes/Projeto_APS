@@ -39,7 +39,7 @@ class PractitionerView:
         btn_width = 40
         btn_pad_y = 15
 
-        workouts_btn = Button(right_frame, text="Workouts", command=self.__practitioner_controller.workouts_screen, font=("Arial", 14, "bold"), bg="#E0E0E0", width=30, height=2)
+        workouts_btn = Button(right_frame, text="Workouts", command=lambda: self.hasAWorkout(workout_plan), font=("Arial", 14, "bold"), bg="#E0E0E0", width=30, height=2)
         workouts_btn.pack(pady=btn_pad_y)
 
         edit_plan_btn = Button(right_frame, text="Edit Workout Plan", font=("Arial", 14, "bold"), bg="#E0E0E0", command=self.__practitioner_controller.update_workout_plan, width=30, height=2)
@@ -57,3 +57,11 @@ class PractitionerView:
                 messagebox.showerror(type, text)
             case "warning":
                 messagebox.showwarning(type, text)
+
+    #Antes tinha um furo aqui, agora ele testa pra ver se tem algum treino
+    def hasAWorkout(self, workout_plan):
+        if (workout_plan["sessions"] == 'No data'):
+            self.throw_message("warning", "You dont have any workout")
+            return
+        else:
+            self.__practitioner_controller.workouts_screen()
